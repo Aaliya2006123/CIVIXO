@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Civixo - Area Issues</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+     ===================================================== -->
+
+<header class="navbar">
+
+    <div class="logo">
+        Civixo
+    </div>
+
+    <nav>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="report.html">
+            Report Issue
+        </a>
+
+        <a href="track.html">
+            Track Status
+        </a>
+
+        <a href="area.html" class="active">
+            Area Issues
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+     ===================================================== -->
+
+<main class="container">
+
+    <section class="report-card">
+
+
+        <!-- HERO -->
+
+        <div class="area-hero">
+
+            <span class="hero-badge">
+                📍 COMMUNITY ISSUES
+            </span>
+
+            <h1>
+                Issues in Your Area
+            </h1>
+
+            <p class="subtitle">
+                See reported public problems around your area
+                and stay informed about local issues.
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             AREA SEARCH
+             ================================================= -->
+
+        <div class="form-group">
+
+            <label for="areaSearch">
+                🔎 Search Area
+            </label>
+
+            <div class="area-search-box">
+
+                <input
+                    type="text"
+                    id="areaSearch"
+                    placeholder="Example: Murud Janjira"
+                >
+
+                <button
+                    type="button"
+                    id="areaSearchBtn"
+                    class="submit-btn"
+                >
+                    Search
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- CURRENT AREA -->
+
+        <div
+            id="areaResult"
+            class="location-result"
+        >
+
+            📍 Showing all reported issues
+
+        </div>
+
+
+
+        <!-- =================================================
+             SUMMARY
+             ================================================= -->
+
+        <section class="area-stats">
+
+
+            <div class="area-stat-card">
+
+                <div class="stat-icon">
+                    📋
+                </div>
+
+                <div>
+
+                    <strong id="totalIssues">
+                        0
+                    </strong>
+
+                    <span>
+                        Total Issues
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="area-stat-card">
+
+                <div class="stat-icon">
+                    ⏳
+                </div>
+
+                <div>
+
+                    <strong id="pendingIssues">
+                        0
+                    </strong>
+
+                    <span>
+                        Pending
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="area-stat-card">
+
+                <div class="stat-icon">
+                    🛠️
+                </div>
+
+                <div>
+
+                    <strong id="actionIssues">
+                        0
+                    </strong>
+
+                    <span>
+                        In Progress
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="area-stat-card">
+
+                <div class="stat-icon">
+                    ✅
+                </div>
+
+                <div>
+
+                    <strong id="resolvedIssues">
+                        0
+                    </strong>
+
+                    <span>
+                        Resolved
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             CATEGORY FILTER
+             ================================================= -->
+
+        <div class="form-group">
+
+            <label for="categoryFilter">
+                🗂️ Filter by Category
+            </label>
+
+            <select id="categoryFilter">
+
+                <option value="all">
+                    All Categories
+                </option>
+
+                <option value="Garbage">
+                    🗑️ Garbage / Waste
+                </option>
+
+                <option value="Street Light">
+                    💡 Street Light
+                </option>
+
+                <option value="Water Supply">
+                    💧 Water Supply
+                </option>
+
+                <option value="Road Damage">
+                    🛣️ Road Damage
+                </option>
+
+                <option value="Drainage">
+                    🚰 Drainage / Sewage
+                </option>
+
+                <option value="Electricity">
+                    ⚡ Electricity
+                </option>
+
+                <option value="Traffic">
+                    🚦 Traffic Problem
+                </option>
+
+                <option value="Other">
+                    📌 Other
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <!-- =================================================
+             MAP
+             ================================================= -->
+
+        <section class="area-map-section">
+
+            <h2>
+                🗺️ Issues Map
+            </h2>
+
+            <p class="map-help">
+                Reported issues will appear on the map.
+            </p>
+
+            <div id="areaMap"></div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             ISSUE LIST
+             ================================================= -->
+
+        <section class="issues-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Reported Issues
+                    </h2>
+
+                    <p>
+                        Problems reported by people in the community.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="issuesList"
+                class="issues-list"
+            >
+
+                <div class="empty-issues">
+
+                    <div class="empty-icon">
+                        ⏳
+                    </div>
+
+                    <h3>
+                        Loading Issues...
+                    </h3>
+
+                    <p>
+                        Please wait while we load complaints.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- ERROR / MESSAGE -->
+
+        <div id="areaMessage"></div>
+
+
+    </section>
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
+<footer>
+
+    © 2026 Civixo |
+    Anonymous Local Problem Reporter
+
+</footer>
+
+
+
+<!-- =====================================================
+     LEAFLET JS
+     ===================================================== -->
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+
+
+<!-- =====================================================
+     AREA ISSUES JAVASCRIPT
+     ===================================================== -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        /* ==========================================
+           BACKEND URL
+           ========================================== */
+
+        const API_URL =
+            "http://localhost:5000/api/complaints";
+
+
+        /* ==========================================
+           VARIABLES
+           ========================================== */
+
+        let areaMap = null;
+
+        let allComplaints = [];
+
+        let filteredComplaints = [];
+
+
+        const defaultLatitude =
+            18.325268;
+
+        const defaultLongitude =
+            72.960867;
+
+
+
+        /* ==========================================
+           INITIALIZE MAP
+           ========================================== */
+
+        if (
+            document.getElementById("areaMap") &&
+            typeof L !== "undefined"
+        ) {
+
+            areaMap =
+                L.map("areaMap").setView(
+                    [
+                        defaultLatitude,
+                        defaultLongitude
+                    ],
+                    14
+                );
+
+
+            L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+                    maxZoom: 19,
+
+                    attribution:
+                        "&copy; OpenStreetMap contributors"
+                }
+            ).addTo(areaMap);
+
+        }
+
+
+
+        /* ==========================================
+           LOAD COMPLAINTS FROM MONGODB
+           ========================================== */
+
+        async function loadComplaints() {
+
+            const list =
+                document.getElementById(
+                    "issuesList"
+                );
+
+
+            if (list) {
+
+                list.innerHTML = `
+
+                    <div class="empty-issues">
+
+                        <div class="empty-icon">
+                            ⏳
+                        </div>
+
+                        <h3>
+                            Loading Issues...
+                        </h3>
+
+                        <p>
+                            Connecting to Civixo server.
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(API_URL);
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Unable to load complaints."
+                    );
+
+                }
+
+
+                /*
+                   Backend may return either:
+
+                   [
+                       complaint,
+                       complaint
+                   ]
+
+                   OR
+
+                   {
+                       success: true,
+                       complaints: [...]
+                   }
+                */
+
+
+                if (Array.isArray(data)) {
+
+                    allComplaints = data;
+
+                }
+
+                else if (
+                    data &&
+                    Array.isArray(
+                        data.complaints
+                    )
+                ) {
+
+                    allComplaints =
+                        data.complaints;
+
+                }
+
+                else {
+
+                    allComplaints = [];
+
+                }
+
+
+                filteredComplaints =
+                    allComplaints;
+
+
+                displayIssues();
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Area Issues error:",
+                    error
+                );
+
+
+                if (list) {
+
+                    list.innerHTML = `
+
+                        <div
+                            class="empty-issues"
+                            style="
+                                padding:25px;
+                            "
+                        >
+
+                            <div class="empty-icon">
+                                ⚠️
+                            </div>
+
+                            <h3>
+                                Could Not Load Issues
+                            </h3>
+
+                            <p>
+                                Please make sure the
+                                Civixo backend is running.
+                            </p>
+
+                            <p>
+                                Backend:
+                                localhost:5000
+                            </p>
+
+                            <button
+                                type="button"
+                                class="submit-btn"
+                                onclick="location.reload()"
+                            >
+                                🔄 Try Again
+                            </button>
+
+                        </div>
+
+                    `;
+
+                }
+
+            }
+
+        }
+
+
+
+        /* ==========================================
+           DISPLAY ISSUES
+           ========================================== */
+
+        function displayIssues() {
+
+
+            const categoryFilter =
+                document.getElementById(
+                    "categoryFilter"
+                );
+
+
+            const selectedCategory =
+                categoryFilter
+                    ? categoryFilter.value
+                    : "all";
+
+
+            const searchInput =
+                document.getElementById(
+                    "areaSearch"
+                );
+
+
+            const searchArea =
+                searchInput
+                    ? searchInput.value
+                        .trim()
+                        .toLowerCase()
+                    : "";
+
+
+            /*
+               Start with all MongoDB complaints
+            */
+
+            let filtered =
+                allComplaints.slice();
+
+
+
+            /* ======================================
+               CATEGORY FILTER
+               ====================================== */
+
+            if (
+                selectedCategory !==
+                "all"
+            ) {
+
+                filtered =
+                    filtered.filter(
+                        function (complaint) {
+
+                            return (
+                                String(
+                                    complaint.category ||
+                                    ""
+                                ).toLowerCase()
+                                ===
+                                selectedCategory.toLowerCase()
+                            );
+
+                        }
+                    );
+
+            }
+
+
+
+            /* ======================================
+               AREA SEARCH
+               ====================================== */
+
+            if (searchArea !== "") {
+
+                filtered =
+                    filtered.filter(
+                        function (complaint) {
+
+                            const location =
+                                String(
+                                    complaint.location ||
+                                    ""
+                                ).toLowerCase();
+
+
+                            const manualLocation =
+                                String(
+                                    complaint.manualLocation ||
+                                    ""
+                                ).toLowerCase();
+
+
+                            return (
+                                location.includes(
+                                    searchArea
+                                ) ||
+
+                                manualLocation.includes(
+                                    searchArea
+                                )
+                            );
+
+                        }
+                    );
+
+            }
+
+
+            filteredComplaints =
+                filtered;
+
+
+
+            /* ======================================
+               UPDATE STATISTICS
+               ====================================== */
+
+            updateStatistics(
+                filtered
+            );
+
+
+
+            /* ======================================
+               DISPLAY LIST
+               ====================================== */
+
+            displayComplaintList(
+                filtered
+            );
+
+
+
+            /* ======================================
+               UPDATE MAP
+               ====================================== */
+
+            updateMap(
+                filtered
+            );
+
+        }
+
+
+
+        /* ==========================================
+           STATISTICS
+           ========================================== */
+
+        function updateStatistics(
+            complaints
+        ) {
+
+
+            const total =
+                complaints.length;
+
+
+            const pending =
+                complaints.filter(
+                    function (item) {
+
+                        const status =
+                            String(
+                                item.status ||
+                                "Pending"
+                            ).toLowerCase();
+
+
+                        return (
+                            status === "pending" ||
+                            status === "submitted" ||
+                            status === "under review"
+                        );
+
+                    }
+                ).length;
+
+
+            const progress =
+                complaints.filter(
+                    function (item) {
+
+                        const status =
+                            String(
+                                item.status ||
+                                ""
+                            ).toLowerCase();
+
+
+                        return (
+                            status ===
+                            "in progress" ||
+
+                            status ===
+                            "action pending"
+                        );
+
+                    }
+                ).length;
+
+
+            const resolved =
+                complaints.filter(
+                    function (item) {
+
+                        return (
+                            String(
+                                item.status ||
+                                ""
+                            ).toLowerCase()
+                            ===
+                            "resolved"
+                        );
+
+                    }
+                ).length;
+
+
+
+            const totalElement =
+                document.getElementById(
+                    "totalIssues"
+                );
+
+
+            const pendingElement =
+                document.getElementById(
+                    "pendingIssues"
+                );
+
+
+            const progressElement =
+                document.getElementById(
+                    "actionIssues"
+                );
+
+
+            const resolvedElement =
+                document.getElementById(
+                    "resolvedIssues"
+                );
+
+
+
+            if (totalElement) {
+
+                totalElement.textContent =
+                    total;
+
+            }
+
+
+            if (pendingElement) {
+
+                pendingElement.textContent =
+                    pending;
+
+            }
+
+
+            if (progressElement) {
+
+                progressElement.textContent =
+                    progress;
+
+            }
+
+
+            if (resolvedElement) {
+
+                resolvedElement.textContent =
+                    resolved;
+
+            }
+
+        }
+
+
+
+        /* ==========================================
+           DISPLAY COMPLAINT LIST
+           ========================================== */
+
+        function displayComplaintList(
+            complaints
+        ) {
+
+
+            const list =
+                document.getElementById(
+                    "issuesList"
+                );
+
+
+            if (!list) {
+
+                return;
+
+            }
+
+
+            if (
+                !complaints ||
+                complaints.length === 0
+            ) {
+
+                list.innerHTML = `
+
+                    <div class="empty-issues">
+
+                        <div class="empty-icon">
+                            🎉
+                        </div>
+
+                        <h3>
+                            No Issues Found
+                        </h3>
+
+                        <p>
+                            There are no reported issues
+                            matching your search.
+                        </p>
+
+                        <a
+                            href="report.html"
+                            class="submit-btn"
+                        >
+                            Report an Issue
+                        </a>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+
+            list.innerHTML = "";
+
+
+
+            complaints.forEach(
+                function (complaint) {
+
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className =
+                        "issue-card";
+
+
+
+                    const status =
+                        complaint.status ||
+                        "Pending";
+
+
+
+                    const date =
+                        complaint.createdAt
+                            ? new Date(
+                                complaint.createdAt
+                              ).toLocaleDateString(
+                                "en-IN"
+                              )
+                            : "Unknown";
+
+
+
+                    const complaintId =
+                        complaint.complaintId ||
+                        complaint.id ||
+                        "N/A";
+
+
+
+                    const location =
+                        complaint.manualLocation ||
+                        complaint.location ||
+                        "Location selected on map";
+
+
+
+                    card.innerHTML = `
+
+                        <div class="issue-card-top">
+
+                            <span class="issue-category">
+
+                                ${escapeHTML(
+                                    complaint.category ||
+                                    "Other"
+                                )}
+
+                            </span>
+
+
+                            <span class="issue-status">
+
+                                ${escapeHTML(
+                                    status
+                                )}
+
+                            </span>
+
+                        </div>
+
+
+
+                        <h3>
+
+                            ${escapeHTML(
+                                complaint.description ||
+                                "No description available"
+                            )}
+
+                        </h3>
+
+
+
+                        <p class="issue-location">
+
+                            📍
+
+                            ${escapeHTML(
+                                location
+                            )}
+
+                        </p>
+
+
+
+                        <div class="issue-footer">
+
+                            <span>
+
+                                📅 ${escapeHTML(
+                                    date
+                                )}
+
+                            </span>
+
+
+                            <span>
+
+                                ID:
+                                ${escapeHTML(
+                                    complaintId
+                                )}
+
+                            </span>
+
+                        </div>
+
+                    `;
+
+
+
+                    list.appendChild(
+                        card
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* ==========================================
+           UPDATE MAP
+           ========================================== */
+
+        function updateMap(
+            complaints
+        ) {
+
+
+            if (!areaMap) {
+
+                return;
+
+            }
+
+
+
+            /*
+               Remove old markers
+            */
+
+            areaMap.eachLayer(
+                function (layer) {
+
+                    if (
+                        layer instanceof
+                        L.Marker
+                    ) {
+
+                        areaMap.removeLayer(
+                            layer
+                        );
+
+                    }
+
+                }
+            );
+
+
+
+            let validMarkers = [];
+
+
+
+            complaints.forEach(
+                function (complaint) {
+
+
+                    const lat =
+                        Number(
+                            complaint.latitude
+                        );
+
+
+                    const lng =
+                        Number(
+                            complaint.longitude
+                        );
+
+
+
+                    if (
+                        !isNaN(lat) &&
+                        !isNaN(lng)
+                    ) {
+
+
+                        const marker =
+                            L.marker(
+                                [
+                                    lat,
+                                    lng
+                                ]
+                            )
+                            .addTo(
+                                areaMap
+                            );
+
+
+
+                        marker.bindPopup(`
+
+                            <strong>
+                                ${escapeHTML(
+                                    complaint.category ||
+                                    "Issue"
+                                )}
+                            </strong>
+
+                            <br><br>
+
+                            ${escapeHTML(
+                                complaint.description ||
+                                ""
+                            )}
+
+                            <br><br>
+
+                            <strong>
+                                Status:
+                            </strong>
+
+                            ${escapeHTML(
+                                complaint.status ||
+                                "Pending"
+                            )}
+
+                            <br><br>
+
+                            <strong>
+                                ID:
+                            </strong>
+
+                            ${escapeHTML(
+                                complaint.complaintId ||
+                                "N/A"
+                            )}
+
+                        `);
+
+
+
+                        validMarkers.push(
+                            [
+                                lat,
+                                lng
+                            ]
+                        );
+
+                    }
+
+                }
+            );
+
+
+
+            /*
+               Fit map to complaint locations
+            */
+
+            if (
+                validMarkers.length > 0
+            ) {
+
+                const bounds =
+                    L.latLngBounds(
+                        validMarkers
+                    );
+
+
+                areaMap.fitBounds(
+                    bounds,
+                    {
+                        padding: [
+                            30,
+                            30
+                        ]
+                    }
+                );
+
+            }
+
+            else {
+
+                areaMap.setView(
+                    [
+                        defaultLatitude,
+                        defaultLongitude
+                    ],
+                    14
+                );
+
+            }
+
+        }
+
+
+
+        /* ==========================================
+           HTML ESCAPE
+           ========================================== */
+
+        function escapeHTML(
+            value
+        ) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
+                return "";
+
+            }
+
+
+            return String(value)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+
+        /* ==========================================
+           CATEGORY FILTER
+           ========================================== */
+
+        const categoryFilter =
+            document.getElementById(
+                "categoryFilter"
+            );
+
+
+        if (categoryFilter) {
+
+            categoryFilter.addEventListener(
+                "change",
+                function () {
+
+                    displayIssues();
+
+                }
+            );
+
+        }
+
+
+
+        /* ==========================================
+           AREA SEARCH
+           ========================================== */
+
+        const searchButton =
+            document.getElementById(
+                "areaSearchBtn"
+            );
+
+
+        const searchInput =
+            document.getElementById(
+                "areaSearch"
+            );
+
+
+        if (searchButton) {
+
+            searchButton.addEventListener(
+                "click",
+                function () {
+
+
+                    const area =
+                        searchInput
+                            ? searchInput.value
+                                .trim()
+                            : "";
+
+
+                    const result =
+                        document.getElementById(
+                            "areaResult"
+                        );
+
+
+                    if (
+                        !result
+                    ) {
+
+                        return;
+
+                    }
+
+
+
+                    if (
+                        area === ""
+                    ) {
+
+                        result.innerHTML = `
+                            📍 Showing all reported issues
+                        `;
+
+                    }
+
+                    else {
+
+                        result.innerHTML = `
+
+                            📍 Showing issues around
+
+                            <strong>
+                                ${escapeHTML(
+                                    area
+                                )}
+                            </strong>
+
+                        `;
+
+                    }
+
+
+
+                    displayIssues();
+
+                }
+            );
+
+        }
+
+
+
+        /* ==========================================
+           ENTER KEY SEARCH
+           ========================================== */
+
+        if (searchInput) {
+
+            searchInput.addEventListener(
+                "keydown",
+                function (event) {
+
+                    if (
+                        event.key ===
+                        "Enter"
+                    ) {
+
+                        event.preventDefault();
+
+
+                        if (searchButton) {
+
+                            searchButton.click();
+
+                        }
+
+                    }
+
+                }
+            );
+
+        }
+
+
+
+        /* ==========================================
+           INITIAL LOAD
+           ========================================== */
+
+        loadComplaints();
+
+
+
+        /* ==========================================
+           MAP RESIZE
+           ========================================== */
+
+        setTimeout(
+            function () {
+
+                if (areaMap) {
+
+                    areaMap.invalidateSize();
+
+                }
+
+            },
+            500
+        );
+
+    }
+
+);
+
+</script>
+
+
+</body>
+
+</html>

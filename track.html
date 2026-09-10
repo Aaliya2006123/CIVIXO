@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Civixo - Track your anonymous local complaint."
+    >
+
+    <title>Civixo | Track Complaint</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <style>
+
+        .track-result {
+            margin-top: 25px;
+        }
+
+        .complaint-status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-progress {
+            background: #cfe8ff;
+            color: #084c8d;
+        }
+
+        .status-resolved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="navbar">
+
+    <a
+        href="index.html"
+        class="logo"
+    >
+        Civixo
+    </a>
+
+
+    <nav>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="report.html">
+            Report Issue
+        </a>
+
+        <a
+            href="track.html"
+            class="active"
+        >
+            Track Status
+        </a>
+
+        <a href="area.html">
+            Area Issues
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<main class="container">
+
+    <section class="track-card">
+
+        <h1>
+            🔍 Track Your Complaint
+        </h1>
+
+
+        <p class="subtitle">
+            Enter your Civixo Complaint ID
+            to check its current status.
+        </p>
+
+
+        <form
+            id="trackForm"
+            class="track-search"
+        >
+
+            <label for="complaintIdInput">
+
+                Complaint ID
+
+            </label>
+
+
+            <input
+                type="text"
+                id="complaintIdInput"
+                placeholder="Example: CIV-12345678"
+                autocomplete="off"
+                required
+            >
+
+
+            <button
+                type="submit"
+                id="trackComplaintBtn"
+                class="submit-btn"
+            >
+
+                🔍 Track Complaint
+
+            </button>
+
+        </form>
+
+
+        <div
+            id="submitMessage"
+            aria-live="polite"
+        ></div>
+
+
+        <div
+            id="trackResult"
+            class="track-result"
+        >
+
+            <p>
+                Enter your Complaint ID above.
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+
+<footer>
+
+    <p>
+        <strong>Civixo</strong>
+    </p>
+
+    <p>
+        Anonymous Local Problem Reporter
+    </p>
+
+    <p>
+        © 2026 Civixo.
+        Built for better communities.
+    </p>
+
+</footer>
+
+
+<script src="js/app.js"></script>
+
+</body>
+
+</html>

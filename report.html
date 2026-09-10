@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Civixo - Report a local public problem anonymously."
+    >
+
+    <title>Civixo | Report a Problem</title>
+
+
+    <!-- =====================================================
+         MAIN CIVIXO CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+
+    <!-- =====================================================
+         LEAFLET CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+
+    <!-- =====================================================
+         REPORT PAGE STYLE
+    ====================================================== -->
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+            background: #f8f4ef;
+            color: #4d0e13;
+        }
+
+
+        /* =================================================
+           REPORT CONTAINER
+        ================================================= */
+
+        .report-wrapper {
+
+            max-width: 850px;
+
+            margin: 40px auto;
+
+            padding: 0 20px;
+        }
+
+
+        /* =================================================
+           REPORT CARD
+        ================================================= */
+
+        .new-report-card {
+
+            background: #ffffff;
+
+            border-radius: 24px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 12px 35px rgba(77, 14, 19, 0.12);
+
+            border: 1px solid rgba(77, 14, 19, 0.08);
+        }
+
+
+        /* =================================================
+           HEADER
+        ================================================= */
+
+        .report-header {
+
+            text-align: center;
+
+            margin-bottom: 35px;
+        }
+
+
+        .report-header h1 {
+
+            margin: 0 0 10px;
+
+            color: #4d0e13;
+
+            font-size: 32px;
+
+            font-weight: 800;
+        }
+
+
+        .report-header p {
+
+            margin: 0;
+
+            color: #725d5e;
+
+            line-height: 1.6;
+        }
+
+
+        /* =================================================
+           STEPS
+        ================================================= */
+
+        .steps {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 10px;
+
+            margin-bottom: 35px;
+        }
+
+
+        .step {
+
+            text-align: center;
+
+            padding: 12px 6px;
+
+            border-radius: 12px;
+
+            background: #f1e9df;
+
+            color: #725d5e;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        .step-number {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            width: 30px;
+
+            height: 30px;
+
+            margin: 0 auto 6px;
+
+            border-radius: 50%;
+
+            background: #d8c4ac;
+
+            color: #4d0e13;
+
+            font-weight: 800;
+        }
+
+
+        .step.active {
+
+            background: #4d0e13;
+
+            color: white;
+        }
+
+
+        .step.active .step-number {
+
+            background: #d8c4ac;
+
+            color: #4d0e13;
+        }
+
+
+        /* =================================================
+           FORM GROUP
+        ================================================= */
+
+        .form-group {
+
+            margin-bottom: 25px;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 9px;
+
+            color: #4d0e13;
+
+            font-size: 16px;
+
+            font-weight: 800;
+        }
+
+
+        .form-group select,
+        .form-group textarea,
+        .form-group input {
+
+            width: 100%;
+
+            padding: 14px 16px;
+
+            border: 1px solid #d8c4ac;
+
+            border-radius: 12px;
+
+            background: #fff;
+
+            color: #4d0e13;
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition: 0.2s ease;
+        }
+
+
+        .form-group select:focus,
+        .form-group textarea:focus,
+        .form-group input:focus {
+
+            border-color: #4d0e13;
+
+            box-shadow:
+                0 0 0 3px rgba(77, 14, 19, 0.08);
+        }
+
+
+        .form-group textarea {
+
+            resize: vertical;
+
+            min-height: 150px;
+        }
+
+
+        /* =================================================
+           SECTION TITLE
+        ================================================= */
+
+        .section-title {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin: 35px 0 8px;
+
+            color: #4d0e13;
+
+            font-size: 22px;
+        }
+
+
+        .section-description {
+
+            margin: 0 0 18px;
+
+            color: #725d5e;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+        }
+
+
+        /* =================================================
+           GPS BUTTON
+        ================================================= */
+
+        .location-btn {
+
+            width: 100%;
+
+            padding: 14px 18px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4d0e13,
+                    #68171d
+                );
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: 0.25s ease;
+        }
+
+
+        .location-btn:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px rgba(77, 14, 19, 0.22);
+        }
+
+
+        .location-btn:disabled {
+
+            opacity: 0.65;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+
+        /* =================================================
+           LOCATION RESULT
+        ================================================= */
+
+        .location-result {
+
+            margin-top: 15px;
+
+            padding: 14px 16px;
+
+            border-radius: 12px;
+
+            background: #f5f1eb;
+
+            border: 1px solid #e1d5c6;
+
+            color: #4d0e13;
+
+            font-weight: 700;
+
+            line-height: 1.5;
+
+            min-height: 48px;
+        }
+
+
+        /* =================================================
+           MANUAL LOCATION
+        ================================================= */
+
+        .manual-location {
+
+            margin-top: 20px;
+        }
+
+
+        .manual-location label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #4d0e13;
+
+            font-weight: 800;
+        }
+
+
+        .manual-location input {
+
+            width: 100%;
+
+            padding: 13px 15px;
+
+            border: 1px solid #d8c4ac;
+
+            border-radius: 12px;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+
+        .manual-location input:focus {
+
+            border-color: #4d0e13;
+
+            box-shadow:
+                0 0 0 3px rgba(77, 14, 19, 0.08);
+        }
+
+
+        /* =================================================
+           OR DIVIDER
+        ================================================= */
+
+        .or-divider {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin: 20px 0;
+
+            color: #9b8b87;
+
+            font-size: 13px;
+
+            font-weight: 800;
+        }
+
+
+        .or-divider::before,
+        .or-divider::after {
+
+            content: "";
+
+            flex: 1;
+
+            height: 1px;
+
+            background: #e1d5c6;
+        }
+
+
+        /* =================================================
+           MAP
+        ================================================= */
+
+        #map {
+
+            width: 100%;
+
+            height: 400px;
+
+            margin-top: 12px;
+
+            border-radius: 16px;
+
+            overflow: hidden;
+
+            border: 2px solid #e1d5c6;
+
+            background: #eeeeee;
+
+            position: relative;
+
+            z-index: 1;
+        }
+
+
+        #map.leaflet-container {
+
+            width: 100%;
+
+            height: 400px;
+        }
+
+
+        /* =================================================
+           MAP HELP
+        ================================================= */
+
+        .map-help {
+
+            margin: 0 0 10px;
+
+            color: #725d5e;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =================================================
+           MAP LOADING
+        ================================================= */
+
+        .map-loading {
+
+            position: absolute;
+
+            top: 50%;
+
+            left: 50%;
+
+            transform:
+                translate(-50%, -50%);
+
+            z-index: 999;
+
+            padding: 14px 20px;
+
+            border-radius: 10px;
+
+            background: white;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.15);
+
+            color: #4d0e13;
+
+            font-weight: 800;
+        }
+
+
+        /* =================================================
+           COORDINATES
+        ================================================= */
+
+        .coordinates-box {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 12px;
+
+            margin-top: 15px;
+        }
+
+
+        .coordinate-item {
+
+            padding: 14px;
+
+            border-radius: 12px;
+
+            background: #f7f3ee;
+
+            border: 1px solid #e1d5c6;
+
+            color: #4d0e13;
+        }
+
+
+        .coordinate-item strong {
+
+            display: block;
+
+            margin-bottom: 5px;
+
+            font-size: 13px;
+        }
+
+
+        .coordinate-value {
+
+            font-size: 14px;
+
+            word-break: break-word;
+        }
+
+
+        /* =================================================
+           ANONYMOUS NOTICE
+        ================================================= */
+
+        .anonymous-box {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-top: 30px;
+
+            padding: 18px;
+
+            border-radius: 15px;
+
+            background: #f1e9df;
+
+            border: 1px solid #d8c4ac;
+        }
+
+
+        .anonymous-icon {
+
+            width: 48px;
+
+            height: 48px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #4d0e13;
+
+            color: white;
+
+            font-size: 22px;
+        }
+
+
+        .anonymous-box h3 {
+
+            margin: 0 0 5px;
+
+            color: #4d0e13;
+
+            font-size: 17px;
+        }
+
+
+        .anonymous-box p {
+
+            margin: 0;
+
+            color: #725d5e;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =================================================
+           SUBMIT BUTTON
+        ================================================= */
+
+        #submitComplaintBtn {
+
+            display: block;
+
+            width: 100%;
+
+            margin-top: 25px;
+
+            padding: 16px 20px;
+
+            border: none;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4d0e13,
+                    #68171d
+                );
+
+            color: white;
+
+            font-size: 17px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: 0.25s ease;
+
+            position: relative;
+
+            z-index: 10000;
+        }
+
+
+        #submitComplaintBtn:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 25px rgba(77, 14, 19, 0.25);
+        }
+
+
+        #submitComplaintBtn:disabled {
+
+            opacity: 0.65;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+
+        /* =================================================
+           MESSAGE
+        ================================================= */
+
+        #submitMessage {
+
+            width: 100%;
+
+            margin-top: 20px;
+        }
+
+
+        /* =================================================
+           SUCCESS BOX
+        ================================================= */
+
+        .success-box {
+
+            margin-top: 20px;
+
+            padding: 30px;
+
+            border-radius: 20px;
+
+            background: #d8c4ac;
+
+            color: #4d0e13;
+
+            border: 2px solid #4d0e13;
+
+            box-shadow:
+                0 12px 30px rgba(77, 14, 19, 0.15);
+        }
+
+
+        .success-box h2 {
+
+            margin: 0 0 12px;
+
+            text-align: center;
+
+            color: #4d0e13;
+
+            font-size: 25px;
+        }
+
+
+        .success-box p {
+
+            color: #4d0e13;
+
+            text-align: center;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+        }
+
+
+        .complaint-id-box {
+
+            margin: 20px 0;
+
+            padding: 18px;
+
+            border-radius: 12px;
+
+            background: white;
+
+            border: 2px solid #4d0e13;
+
+            color: #4d0e13;
+
+            text-align: center;
+
+            font-size: 27px;
+
+            font-weight: 900;
+
+            letter-spacing: 3px;
+
+            word-break: break-all;
+        }
+
+
+        .success-buttons {
+
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 22px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .success-buttons button {
+
+            flex: 1;
+
+            min-width: 150px;
+
+            padding: 13px 18px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+
+        .track-btn {
+
+            background: #4d0e13;
+
+            color: white;
+        }
+
+
+        .home-btn {
+
+            background: #725d5e;
+
+            color: white;
+        }
+
+
+        .new-btn {
+
+            background: white;
+
+            color: #4d0e13;
+
+            border: 1px solid #4d0e13 !important;
+        }
+
+
+        /* =================================================
+           MOBILE
+        ================================================= */
+
+        @media (max-width: 700px) {
+
+            .report-wrapper {
+
+                margin: 20px auto;
+
+                padding: 0 12px;
+            }
+
+
+            .new-report-card {
+
+                padding: 22px 17px;
+
+                border-radius: 18px;
+            }
+
+
+            .report-header h1 {
+
+                font-size: 26px;
+            }
+
+
+            .steps {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+                gap: 8px;
+            }
+
+
+            #map,
+            #map.leaflet-container {
+
+                height: 320px;
+            }
+
+
+            .coordinates-box {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .anonymous-box {
+
+                align-items: flex-start;
+            }
+
+
+            .success-box {
+
+                padding: 22px 16px;
+            }
+
+
+            .complaint-id-box {
+
+                font-size: 21px;
+
+                letter-spacing: 2px;
+            }
+
+
+            .success-buttons {
+
+                flex-direction: column;
+            }
+
+
+            .success-buttons button {
+
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <a
+            href="index.html"
+            class="logo"
+        >
+            Civixo
+        </a>
+
+
+        <nav>
+
+            <a href="index.html">
+                Home
+            </a>
+
+
+            <a
+                href="report.html"
+                class="active"
+            >
+                Report Issue
+            </a>
+
+
+            <a href="track.html">
+                Track Status
+            </a>
+
+
+            <a href="area.html">
+                Area Issues
+            </a>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="report-wrapper">
+
+
+        <section class="new-report-card">
+
+
+            <!-- =================================================
+                 HEADER
+            ================================================== -->
+
+            <div class="report-header">
+
+                <h1>
+                    Report a Local Problem
+                </h1>
+
+
+                <p>
+                    Report a public issue anonymously
+                    in just a few simple steps.
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 STEPS
+            ================================================== -->
+
+            <div class="steps">
+
+
+                <div class="step active">
+
+                    <div class="step-number">
+                        1
+                    </div>
+
+                    Category
+
+                </div>
+
+
+                <div class="step active">
+
+                    <div class="step-number">
+                        2
+                    </div>
+
+                    Describe
+
+                </div>
+
+
+                <div class="step active">
+
+                    <div class="step-number">
+                        3
+                    </div>
+
+                    Location
+
+                </div>
+
+
+                <div class="step active">
+
+                    <div class="step-number">
+                        4
+                    </div>
+
+                    Submit
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 STEP 1 — CATEGORY
+            ================================================== -->
+
+            <div class="form-group">
+
+
+                <label for="problemCategory">
+
+                    1️⃣ Select Problem Category
+
+                </label>
+
+
+                <select id="problemCategory">
+
+
+                    <option value="">
+
+                        Select a problem
+
+                    </option>
+
+
+                    <option value="Garbage">
+
+                        Garbage / Waste
+
+                    </option>
+
+
+                    <option value="Street Light">
+
+                        Street Light
+
+                    </option>
+
+
+                    <option value="Water Supply">
+
+                        Water Supply
+
+                    </option>
+
+
+                    <option value="Road Damage">
+
+                        Road Damage
+
+                    </option>
+
+
+                    <option value="Drainage">
+
+                        Drainage / Sewage
+
+                    </option>
+
+
+                    <option value="Electricity">
+
+                        Electricity
+
+                    </option>
+
+
+                    <option value="Traffic">
+
+                        Traffic Problem
+
+                    </option>
+
+
+                    <option value="Other">
+
+                        Other
+
+                    </option>
+
+
+                </select>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 STEP 2 — DESCRIPTION
+            ================================================== -->
+
+            <div class="form-group">
+
+
+                <label for="problemDescription">
+
+                    2️⃣ Describe the Problem
+
+                </label>
+
+
+                <textarea
+                    id="problemDescription"
+                    rows="6"
+                    placeholder="Describe the problem clearly. For example: The street light near the main road has not been working for several days."
+                ></textarea>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 STEP 3 — LOCATION
+            ================================================== -->
+
+            <h2 class="section-title">
+
+                3️⃣ 📍 Select Problem Location
+
+            </h2>
+
+
+            <p class="section-description">
+
+                Use your current location automatically,
+                enter a location manually, or select the
+                exact point directly on the map.
+
+            </p>
+
+
+
+            <!-- GPS -->
+
+            <button
+                type="button"
+                id="getLocationBtn"
+                class="location-btn"
+            >
+
+                📍 Use My Current Location
+
+            </button>
+
+
+
+            <!-- LOCATION RESULT -->
+
+            <div
+                id="locationResult"
+                class="location-result"
+                aria-live="polite"
+            >
+
+                Location not selected yet.
+
+            </div>
+
+
+
+            <!-- OR -->
+
+            <div class="or-divider">
+
+                OR
+
+            </div>
+
+
+
+            <!-- MANUAL LOCATION -->
+
+            <div class="manual-location">
+
+                <label for="manualLocation">
+
+                    ✏️ Enter Location Manually
+
+                </label>
+
+
+                <input
+                    type="text"
+                    id="manualLocation"
+                    placeholder="Example: Murud Janjira, Raigad"
+                >
+
+            </div>
+
+
+
+            <!-- MAP -->
+
+            <div style="margin-top:25px;">
+
+                <h3
+                    style="
+                        margin:0 0 8px;
+                        color:#4d0e13;
+                    "
+                >
+
+                    🗺️ Select on Map
+
+                </h3>
+
+
+                <p class="map-help">
+
+                    Click anywhere on the map or drag the
+                    marker to choose the exact problem location.
+
+                </p>
+
+
+                <div id="map">
+
+                    <div class="map-loading">
+
+                        🗺️ Loading map...
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 COORDINATES
+            ================================================== -->
+
+            <div class="coordinates-box">
+
+
+                <div class="coordinate-item">
+
+                    <strong>
+                        Latitude
+                    </strong>
+
+                    <span
+                        id="latitude"
+                        class="coordinate-value"
+                    >
+                        Not selected
+                    </span>
+
+                </div>
+
+
+                <div class="coordinate-item">
+
+                    <strong>
+                        Longitude
+                    </strong>
+
+                    <span
+                        id="longitude"
+                        class="coordinate-value"
+                    >
+                        Not selected
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 ANONYMOUS NOTICE
+            ================================================== -->
+
+            <div class="anonymous-box">
+
+
+                <div class="anonymous-icon">
+
+                    🔒
+
+                </div>
+
+
+                <div>
+
+                    <h3>
+
+                        Anonymous Report
+
+                    </h3>
+
+
+                    <p>
+
+                        Your identity is not displayed publicly.
+                        You can report a local problem without
+                        creating an account.
+
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 STEP 4 — SUBMIT
+            ================================================== -->
+
+            <button
+                type="button"
+                id="submitComplaintBtn"
+                class="submit-btn"
+            >
+
+                🚨 Submit Complaint
+
+            </button>
+
+
+
+            <!-- =================================================
+                 SUCCESS / ERROR MESSAGE
+            ================================================== -->
+
+            <div
+                id="submitMessage"
+                aria-live="polite"
+            ></div>
+
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer>
+
+        <p>
+            <strong>Civixo</strong>
+        </p>
+
+
+        <p>
+            Anonymous Local Problem Reporter
+        </p>
+
+
+        <p>
+            © 2026 Civixo.
+            Built for better communities.
+        </p>
+
+    </footer>
+
+
+
+    <!-- =====================================================
+         LEAFLET JAVASCRIPT
+    ====================================================== -->
+
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    ></script>
+
+
+
+    <!-- =====================================================
+         CIVIXO APP.JS
+    ====================================================== -->
+
+    <script src="js/app.js?v=20260901"></script>
+
+
+
+    <!-- =====================================================
+         MAP SAFETY
+    ====================================================== -->
+
+    <script>
+
+        window.addEventListener(
+            "load",
+            function () {
+
+                console.log(
+                    "🌐 New Civixo report page loaded."
+                );
+
+
+                const loading =
+                    document.querySelector(
+                        ".map-loading"
+                    );
+
+
+                if (loading) {
+
+                    setTimeout(
+                        function () {
+
+                            loading.remove();
+
+                        },
+                        1200
+                    );
+
+                }
+
+
+                setTimeout(
+                    function () {
+
+                        if (
+                            typeof civixoMap !== "undefined" &&
+                            civixoMap
+                        ) {
+
+                            civixoMap.invalidateSize(true);
+
+                            console.log(
+                                "✅ Map size refreshed."
+                            );
+
+                        }
+
+                    },
+                    1200
+                );
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Civixo | Admin Dashboard</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            Civixo Admin
+        </div>
+
+        <nav>
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="admin-dashboard.html" class="active">
+                Dashboard
+            </a>
+
+            <button
+                type="button"
+                id="adminLogoutBtn"
+                class="logout-btn"
+            >
+                Logout
+            </button>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="container">
+
+        <section class="report-card">
+
+            <h1>
+                🛠️ Admin Dashboard
+            </h1>
+
+            <p class="subtitle">
+                Manage and monitor Civixo public complaints.
+            </p>
+
+
+            <!-- ================= STATISTICS ================= -->
+
+            <div class="admin-stats">
+
+                <div class="stat-card">
+
+                    <h3>
+                        📋 Total Complaints
+                    </h3>
+
+                    <p id="totalComplaints">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <h3>
+                        🟡 Pending
+                    </h3>
+
+                    <p id="pendingComplaints">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <h3>
+                        🔵 In Progress
+                    </h3>
+
+                    <p id="progressComplaints">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <h3>
+                        🟢 Resolved
+                    </h3>
+
+                    <p id="resolvedComplaints">
+                        0
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= SEARCH ================= -->
+
+            <div class="form-group">
+
+                <label for="adminSearch">
+                    🔍 Search Complaint
+                </label>
+
+                <input
+                    type="text"
+                    id="adminSearch"
+                    placeholder="Search by Complaint ID or category..."
+                >
+
+            </div>
+
+
+            <!-- ================= COMPLAINTS ================= -->
+
+            <h2>
+                📋 All Complaints
+            </h2>
+
+            <div
+                id="adminComplaintsContainer"
+                class="admin-complaints"
+            >
+
+                <p>
+                    Loading complaints...
+                </p>
+
+            </div>
+
+
+            <!-- ================= MESSAGE ================= -->
+
+            <div id="adminMessage"></div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            <strong>Civixo</strong>
+        </p>
+
+        <p>
+            Admin Dashboard
+        </p>
+
+        <p>
+            © 2026 Civixo
+        </p>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script src="js/admin-dashboard.js"></script>
+
+</body>
+
+</html>

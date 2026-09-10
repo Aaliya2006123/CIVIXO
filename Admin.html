@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Civixo | Admin Login</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            Civixo
+        </div>
+
+        <nav>
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="report.html">
+                Report Issue
+            </a>
+
+            <a href="track.html">
+                Track Status
+            </a>
+
+            <a href="area.html">
+                Area Issues
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ================= ADMIN LOGIN ================= -->
+
+    <main class="container">
+
+        <section class="track-card">
+
+            <h1>
+                🔐 Admin Login
+            </h1>
+
+            <p class="subtitle">
+                Login to manage Civixo complaints.
+            </p>
+
+
+            <div class="form-group">
+
+                <label for="adminUsername">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="adminUsername"
+                    placeholder="Enter admin username"
+                    autocomplete="username"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="adminPassword">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="adminPassword"
+                    placeholder="Enter admin password"
+                    autocomplete="current-password"
+                >
+
+            </div>
+
+
+            <button
+                type="button"
+                id="adminLoginBtn"
+                class="submit-btn"
+            >
+                🔐 Login
+            </button>
+
+
+            <div
+                id="adminLoginMessage"
+                class="track-result"
+            ></div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            <strong>Civixo</strong>
+        </p>
+
+        <p>
+            Admin Panel
+        </p>
+
+        <p>
+            © 2026 Civixo
+        </p>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script src="js/admin.js"></script>
+
+</body>
+
+</html>
